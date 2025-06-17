@@ -3,153 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TƯỜNG TRÌNH TT MẮT</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    
-	<style>
+    <title>TƯỜNG TRÌNH THỦ THUẬT MẮT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1E88E5;
+            --secondary-color: #1976D2;
+            --accent-color: #FFA07A;
+            --light-bg: #F8F9FA;
+            --dark-bg: #2C3E50;
+            --text-light: #FFFFFF;
+            --text-dark: #333333;
+            --success-color: #28A745;
+            --warning-color: #FFC107;
+            --danger-color: #DC3545;
+            --card-shadow: 0 4px 8px rgba(59,89,152, 0.3);
+            --card-hover-shadow: 0 8px 16px rgba(85, 172, 238, 0.3);
+            --transition: all 0.3s ease;
+            --highlight-color: #FFF176;
+            --highlight-border: #FFD600;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             display: flex;
-			flex-direction: column;
             font-family: 'Roboto', sans-serif;
             margin: 0;
-			min-height: 100vh;
-            background: linear-gradient(to bottom, #D3D3D3, #D3D3D3);
-            color: #333;
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #e6e9f0, #d3d3d3);
+            color: var(--text-dark);
+            transition: var(--transition);
+            overflow: hidden;
         }
-		
+
+        body.dark-mode {
+            background: linear-gradient(to bottom, #2C3E50, #1A2530);
+            color: var(--text-light);
+        }
+
+        /* Thanh điều hướng */
         nav {
-			position: fixed;
-            width: 24%;
-			height: 100%;
-            background: linear-gradient(to bottom, #1E88E5, #1976D2);
-			border-right: 3px solid #FFA07A
-            color: white;
+            width: 300px;
+            height: 100vh;
+            background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+            border-right: 3px solid var(--secondary-color); /* Thay đổi màu viền */
+            color: var(--text-light);
             padding: 20px;
             box-shadow: 3px 0 10px rgba(0, 0, 0, 0.2);
-			overflow-y: auto;
+            overflow-y: auto;
+            z-index: 100;
+            transition: var(--transition);
+            position: fixed;
+            left: 0;
+            top: 0;
         }
-		
-		.search-box {
-			width: 60%;
-			padding: 6px;
-			border-radius: 20px;
-			border: 0px solid #FFFFFF; /* Viền màu cam nhạt */
-			font-size: 14px;
-			background-color: #FFFFFF; /* Màu nền vàng nhạt */
-			box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Hiệu ứng đổ bóng */
-			outline: none;
-			transition: background-color 0.3s ease, box-shadow 0.3s ease;
-		}
-		
-		.search-box:hover {
-            transform: scale(1.1);
-            box-shadow: 0 4px 8px rgba(85, 172, 238, 1.2);
+        
+        /* Tạo kiểu thanh cuộn - Đổi màu trắng */
+        nav::-webkit-scrollbar {
+            width: 8px;
         }
-		.search-box:focus {
-			background-color: #FFFFFF; /* Đổi màu nền khi focus */
-			box-shadow: 0 2px 4px rgba(255, 255, 122, 0); /* Đổ bóng sáng hơn khi focus */
-			transform: scale(1.1);
-		}
+        nav::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+        nav::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.7); /* Màu trắng */
+            border-radius: 10px;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        nav::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.9); /* Màu trắng khi hover */
+        }
+
+        .dark-mode nav {
+            background: linear-gradient(to bottom, #1A2530, #0D1B26);
+        }
+
+        .nav-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px 0;
+            position: relative;
+        }
+
+        .nav-header h3 {
+            color: white;
+            font-size: 26px;
+            font-weight: bold;
+            margin: 0;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            width: 100%;
+        }
+
+        .search-box-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border-radius: 25px;
+            border: 0;
+            font-size: 16px;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .search-box:hover {
+            box-shadow: 0 4px 8px rgba(85, 172, 238, 0.3);
+        }
+
+        .search-box:focus {
+            box-shadow: 0 2px 4px rgba(85, 172, 238, 0.4);
+            background-color: white;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #555;
+        }
 
         nav ul {
             list-style: none;
             padding: 0;
+            margin: 0;
         }
-		
+
         nav ul li {
             margin: 10px 0;
         }
-		
+
         nav ul li a {
-			background: rgba(255, 255, 255, 0.1);
-            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
             text-decoration: none;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 500;
-            padding: 10px;
+            padding: 12px;
             display: flex;
             align-items: center;
             border-radius: 20px;
-            transition: background 0.3s ease, transform 0.3s ease;
+            transition: var(--transition);
         }
-		
+
         nav ul li a:hover {
-			background: rgba(255, 255, 255, 1);
+            background: rgba(255, 255, 255, 1);
             transform: translateX(7px);
-			color: #01579B;
+            color: var(--primary-color);
         }
-		
+        
+        /* Active menu item */
+        nav ul li a.active {
+            background: rgba(255, 255, 255, 1);
+            color: var(--primary-color);
+            font-weight: bold;
+            transform: translateX(7px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
         nav ul li a i {
             margin-right: 10px;
+            width: 20px;
+            text-align: center;
         }
-		
+
+        /* Nội dung chính */
         main {
             flex-grow: 1;
-            padding: 40px;
-            margin-left: 27%;
-			margin-bottom: 2px;
-            background: #D3D3D3;
-            border-radius: 2px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px 40px 20px;
+            margin-left: 300px;
+            background: var(--light-bg);
+            transition: var(--transition);
+            height: 100vh;
+            overflow-y: auto;
         }
-		
-		footer {
-			text-align: center; /* Căn giữa */
-			padding: 0px;
-			background: #1E88E5;
-			color: white;
-			width: 100%; /* Chiếm toàn bộ chiều rộng */
-			margin-top: auto; /* Đẩy footer xuống dưới cùng */
-			font-family: 'Arial', sans-serif;
-			font-size: 10px;
-			font-weight: bold;
-		}
-		
-        section {
-            margin-bottom: 25px;
-            padding: 20px;
-            border: 1px solid #3f729b;
-            border-radius: 12px;
-            background: #FFFFFF;
-            box-shadow: 0 4px 8px rgba(59,89,152, 0.5);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+        .dark-mode main {
+            background: #1A2530;
         }
-		
-        section:hover {
-            transform: scale(1.02);
-            box-shadow: 0 2px 4px rgba(85, 172, 238, 1.2);
+
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary-color);
         }
-		
-        h2 {
-            color: #1E88E5;
-            font-family: 'Open Sans', sans-serif;
-            font-size: 18px;
-			font-weight: bold;
-            margin-bottom: 10px;
-			border-bottom: 2px solid rgba(85,172,238, 0.5);
-			text-align: center;
-			padding-bottom: 10px;
+
+        .main-title {
+            color: var(--primary-color);
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-		
-		h3 {
-			color: #FFFFFF; /* Màu*/
-			font-size: 26px;
-			font-weight: bold;
-			text-align: center; /* Căn giữa tiêu đề */
-			margin-bottom: 5px; /* Tạo khoảng cách phía dưới tiêu đề */
-			border-bottom: 1px solid white; /* Đường kẻ dưới */
-			padding-bottom: 10px;
-		}
-		
-        p {
-            line-height: 1.5;
-            font-size: 16px;
+
+        .dark-mode .main-title {
+            color: #64B5F6;
         }
-		
-        .copy-button {
-            display: inline-block;
-            margin-top: 10px;
-            background-color: #1976D2;
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .action-btn {
+            background: var(--primary-color);
             color: white;
             border: none;
             padding: 10px 15px;
@@ -157,496 +234,1377 @@
             cursor: pointer;
             font-size: 14px;
             font-weight: bold;
-            transition: background 0.3s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-		
+
+        .action-btn:hover {
+            background: #1565C0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            justify-content: center;
+        }
+
+        .action-btn.history {
+            background: #9C27B0;
+        }
+
+        .action-btn.history:hover {
+            background: #7B1FA2;
+        }
+        
+        .action-btn.favorites {
+            background: #FF9800;
+        }
+
+        .action-btn.favorites:hover {
+            background: #F57C00;
+        }
+
+        /* Các section thủ thuật */
+        .sections-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 30px;
+        }
+
+        section {
+            padding: 25px;
+            border: 1px solid #d1e0f0;
+            border-radius: 12px;
+            background: #FFFFFF;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .dark-mode section {
+            background: #2C3E50;
+            border-color: #4A6583;
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+
+        section.recently-used {
+            border-left: 5px solid var(--accent-color);
+        }
+
+        section.favorite {
+            border-top: 3px solid var(--warning-color);
+        }
+        
+        /* Highlight effect for selected section */
+        section.highlight {
+            animation: highlight-pulse 2s ease-in-out;
+            border: 2px solid var(--highlight-border);
+            background-color: var(--highlight-color);
+        }
+        
+        .dark-mode section.highlight {
+            background-color: rgba(255, 241, 118, 0.2);
+            border-color: #FFD600;
+        }
+        
+        @keyframes highlight-pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 213, 0, 0.5);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(255, 213, 0, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 213, 0, 0);
+            }
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-family: 'Open Sans', sans-serif;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            border-bottom: 2px solid rgba(85,172,238, 0.5);
+            text-align: center;
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dark-mode h2 {
+            color: #64B5F6;
+        }
+
+        .section-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .section-btn {
+            background: transparent;
+            border: none;
+            color: #777;
+            cursor: pointer;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .section-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .dark-mode .section-btn {
+            color: #aaa;
+        }
+
+        .dark-mode .section-btn:hover {
+            color: #64B5F6;
+        }
+
+        p {
+            line-height: 1.6;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        .dark-mode p {
+            color: #E0E0E0;
+        }
+
+        .copy-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 15px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: var(--transition);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
         .copy-button:hover {
             background-color: #1565C0;
-            transform: scale(1.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
-		
-		.bmi-section input {
-			width: 10%;
-			padding: 10px;
-			margin: 5px 0;
-			border: 1px solid #E0E0E0; /* Viền phẳng màu xám */
-			border-radius: 12px; /* Bo góc nhẹ */
-			font-size: 14px;
-			background-color: #FFFFFF; /* Nền nhẹ nhàng */
-			color: #212121; /* Chữ màu xám đậm */
-			outline: none;
-			transition: border-color 0.2s ease, box-shadow 0.3s ease;
-		}
 
-		.bmi-section input:focus {
-			border-color: #42A5F5; /* Viền màu xanh khi focus */
-			background-color: #FFFFFF; /* Nền trắng khi focus */
-			box-shadow: 0 0 8px rgba(66, 165, 245, 0.3); /* Hiệu ứng ánh sáng nhẹ */
-			transform: scale(1.03);
-		}
+        .copy-button.copied {
+            background-color: var(--success-color);
+        }
 
-		.bmi-section button {
-			background: #1976D2; /* Màu xanh phẳng hiện đại */
-			color: white;
-			border: none;
-			padding: 10px 15px;
-			border-radius: 8px; /* Bo góc nhẹ */
-			cursor: pointer;
-			font-size: 14px;
-			font-weight: bold;
-			transition: background-color 0.3s ease, transform 0.3s ease;
-		}
+        /* Section BMI */
+        .bmi-section {
+            padding: 25px;
+            background: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+        }
 
-		.bmi-section button:hover {
-			background-color: #1E88E5; /* Xanh đậm hơn khi hover */
-			transform: scale(1.1); /* Hiệu ứng phóng nhẹ */
-		}	
+        .dark-mode .bmi-section {
+            background: #2C3E50;
+        }
+
+        .bmi-section h2 {
+            margin-top: 0;
+        }
+
+        .bmi-section .description {
+            margin-bottom: 15px;
+            font-size: 15px;
+            color: #555;
+            text-align: center;
+        }
+
+        .dark-mode .bmi-section .description {
+            color: #bbb;
+        }
+
+        .bmi-inputs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .bmi-section input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #E0E0E0;
+            border-radius: 12px;
+            font-size: 15px;
+            background-color: #FFFFFF;
+            color: #212121;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .dark-mode .bmi-section input {
+            background-color: #34495E;
+            border-color: #4A6583;
+            color: #E0E0E0;
+        }
+
+        .bmi-section input:focus {
+            border-color: #42A5F5;
+            box-shadow: 0 0 8px rgba(66, 165, 245, 0.3);
+        }
+
+        .bmi-section button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .bmi-section button:hover {
+            background-color: #1565C0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .result-display {
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            margin: 20px 0 15px;
+            text-align: center;
+            font-size: 18px;
+            transition: var(--transition);
+        }
+
+        .underweight {
+            background-color: #BBDEFB;
+            color: #0D47A1;
+        }
+
+        .normal {
+            background-color: #C8E6C9;
+            color: #1B5E20;
+        }
+
+        .overweight {
+            background-color: #FFF9C4;
+            color: #F57F17;
+        }
+
+        .obese {
+            background-color: #FFCDD2;
+            color: #B71C1C;
+        }
+
+        .dark-mode .underweight {
+            background-color: #0D47A1;
+            color: #BBDEFB;
+        }
+
+        .dark-mode .normal {
+            background-color: #1B5E20;
+            color: #C8E6C9;
+        }
+
+        .dark-mode .overweight {
+            background-color: #F57F17;
+            color: #FFF9C4;
+        }
+
+        .dark-mode .obese {
+            background-color: #B71C1C;
+            color: #FFCDD2;
+        }
+
+        .bmi-info {
+            margin-top: 15px;
+            padding: 15px;
+            background: #F1F8E9;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #33691E;
+        }
+
+        .dark-mode .bmi-info {
+            background: #1B5E20;
+            color: #C8E6C9;
+        }
+
+        .bmi-info h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .bmi-info ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        .bmi-info li {
+            margin-bottom: 5px;
+        }
+
+        /* Nút cuộn lên đầu trang */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            z-index: 99;
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background: #1565C0;
+            transform: translateY(-5px);
+        }
+
+        /* Panel lịch sử và yêu thích */
+        .history-section, .favorites-section {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 380px;
+            height: 100%;
+            background: white;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 20px;
+            transition: var(--transition);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dark-mode .history-section, .dark-mode .favorites-section {
+            background: #2C3E50;
+        }
+
+        .history-section.visible, .favorites-section.visible {
+            right: 0;
+        }
+
+        .history-header, .favorites-header {
+            position: relative;
+            padding-top: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .dark-mode .history-header, .dark-mode .favorites-header {
+            border-bottom: 1px solid #4A6583;
+        }
+
+        .history-title, .favorites-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-align: center;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .dark-mode .history-title, .dark-mode .favorites-title {
+            color: #64B5F6;
+        }
+
+        .close-history, .close-favorites {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #777;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dark-mode .close-history, .dark-mode .close-favorites {
+            color: #aaa;
+        }
+
+        .history-list, .favorites-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .history-item, .favorites-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .dark-mode .history-item, .dark-mode .favorites-item {
+            border-bottom: 1px solid #4A6583;
+        }
+
+        .history-item:hover, .favorites-item:hover {
+            background: #f5f5f5;
+        }
+
+        .dark-mode .history-item:hover, .dark-mode .favorites-item:hover {
+            background: #34495E;
+        }
+
+        .history-item-title, .favorites-item-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .history-item-content, .favorites-item-content {
+            font-size: 14px;
+            color: #555;
+            max-height: 60px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+
+        .dark-mode .history-item-content, .dark-mode .favorites-item-content {
+            color: #bbb;
+        }
+
+        .history-item-time {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .dark-mode .history-item-time {
+            color: #888;
+        }
+
+        .no-history, .no-favorites {
+            text-align: center;
+            padding: 30px;
+            color: #777;
+        }
+
+        .dark-mode .no-history, .dark-mode .no-favorites {
+            color: #aaa;
+        }
+
+        /* Option block */
+        .option-block {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .dark-mode .option-block {
+            background: #34495E;
+        }
+
+        .option-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .option-title {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .dark-mode .option-title {
+            color: #64B5F6;
+        }
+        
+        /* Nút xóa */
+        .delete-btn {
+            background-color: var(--danger-color);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: var(--transition);
+        }
+
+        .delete-btn:hover {
+            background-color: #bd2130;
+            transform: translateY(-2px);
+        }
+        
+        /* Tối ưu cho màn hình lớn */
+        @media (min-width: 1600px) {
+            .sections-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (min-width: 2000px) {
+            .sections-container {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        /* Phần footer cho panel */
+        .panel-footer {
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #eee;
+            margin-top: auto;
+        }
+
+        .dark-mode .panel-footer {
+            border-top: 1px solid #4A6583;
+        }
+        
+        /* Thanh cuộn cho danh sách */
+        .history-list::-webkit-scrollbar, 
+        .favorites-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        .history-list::-webkit-scrollbar-track, 
+        .favorites-list::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.05);
+            border-radius: 10px;
+        }
+        .history-list::-webkit-scrollbar-thumb, 
+        .favorites-list::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+        }
+        .history-list::-webkit-scrollbar-thumb:hover, 
+        .favorites-list::-webkit-scrollbar-thumb:hover {
+            background: rgba(0,0,0,0.3);
+        }
+        
+        .dark-mode .history-list::-webkit-scrollbar-thumb, 
+        .dark-mode .favorites-list::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.2);
+        }
+        .dark-mode .history-list::-webkit-scrollbar-thumb:hover, 
+        .dark-mode .favorites-list::-webkit-scrollbar-thumb:hover {
+            background: rgba(255,255,255,0.3);
+        }
     </style>
-	
+</head>
+<body>
+    <nav>
+        <div class="nav-header">
+            <h3>MỤC LỤC</h3>
+        </div>
+        
+        <div class="search-box-container">
+            <i class="fas fa-search search-icon"></i>
+            <input
+                type="text"
+                id="search-nav"
+                class="search-box"
+                placeholder="Tìm kiếm thủ thuật..."
+            />
+        </div>
+        
+        <ul id="nav-menu">
+            <li><a href="#section1"><i class="fas fa-eye"></i>LẤY DỊ VẬT KẾT MẠC</a></li>
+            <li><a href="#section2"><i class="fas fa-eye"></i>LẤY DỊ VẬT GIÁC MẠC</a></li>
+            <li><a href="#section3"><i class="fas fa-calculator"></i>LẤY CALCI KẾT MẠC</a></li>
+            <li><a href="#section4"><i class="fas fa-fire"></i>CẤP CỨU BỎNG MẮT BAN ĐẦU</a></li>
+            <li><a href="#section5"><i class="fas fa-cut"></i>RẠCH ÁP XE MI</a></li>
+            <li><a href="#section6"><i class="fas fa-cut"></i>RẠCH ÁP XE TÚI LỆ</a></li>
+            <li><a href="#section7"><i class="fas fa-syringe"></i>CHÍCH MỦ MẮT</a></li>
+            <li><a href="#section8"><i class="fas fa-syringe"></i>CHÍCH CHẮP LẸO</a></li>
+            <li><a href="#section9"><i class="fas fa-tools"></i>GỌT GIÁC MẠC</a></li>
+            <li><a href="#section10"><i class="fas fa-syringe"></i>KHÂU KẾT MẠC</a></li>
+            <li><a href="#section11"><i class="fas fa-cut"></i>CẮT CHỈ KHÂU KẾT MẠC</a></li>
+            <li><a href="#section12"><i class="fas fa-shower"></i>BƠM RỬA LỆ ĐẠO</a></li>
+            <li><a href="#section13"><i class="fas fa-shower"></i>BƠM THÔNG LỆ ĐẠO</a></li>
+            <li><a href="#section14"><i class="fas fa-cut"></i>PT CHẮP CẢ BỌC</a></li>
+            <li><a href="#section15"><i class="fas fa-hand-paper"></i>NẶN BỜ MI</a></li>
+            <li><a href="#section16"><i class="fas fa-shower"></i>RỬA CÙNG ĐỒ</a></li>
+            <li><a href="#section17"><i class="fas fa-tachometer-alt"></i>ĐO NHÃN ÁP</a></li>
+            <li><a href="#section18"><i class="fas fa-search"></i>SOI ĐÁY MẮT TRỰC TIẾP</a></li>
+            <li><a href="#section19"><i class="fas fa-layer-group"></i>BÓC GIẢ MẠC</a></li>
+            <li><a href="#section20"><i class="fas fa-syringe"></i>KHÂU VẾT THƯƠNG</a></li>
+            <li><a href="#section21"><i class="fas fa-fire"></i>ĐỐT LÔNG SIÊU</a></li>
+            <li><a href="#section22"><i class="fas fa-procedures"></i>PT MỘNG GHÉP KẾT MẠC TỰ THÂN</a></li>
+            <li><a href="#section23"><i class="fas fa-procedures"></i>PHẪU THUẬT QUẶM</a></li>
+            <li><a href="#section24"><i class="fas fa-cut"></i>CẮT CHỈ KHÂU DA MI</a></li>
+            <li><a href="#section25"><i class="fas fa-procedures"></i>PHẪU THUẬT QUẶM MI</a></li>
+            <li><a href="#section26"><i class="fas fa-chart-line"></i>DIỄN BIẾN LOÉT GIÁC MẠC</a></li>
+            <li><a href="#section27"><i class="fas fa-stethoscope"></i>KHÁM CHUYÊN KHOA</a></li>
+            <li><a href="#section28"><i class="fas fa-calculator"></i>TÍNH BMI</a></li>
+        </ul>
+    </nav>
+    
+    <main>
+        <div class="main-header">
+            <h1 class="main-title">TƯỜNG TRÌNH THỦ THUẬT MẮT</h1>
+            <div class="action-buttons">
+                <button class="action-btn icon-btn" id="theme-toggle-icon" title="Chuyển chế độ sáng/tối">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="action-btn favorites icon-btn" id="show-favorites" title="Mục yêu thích">
+                    <i class="fas fa-star"></i>
+                </button>
+                <button class="action-btn history" id="show-history">
+                    <i class="fas fa-history"></i> 
+                </button>
+            </div>
+        </div>
+        
+        <div class="sections-container">
+            <!-- Các section sẽ được tạo động bằng JavaScript -->
+        </div>
+    </main>
+    
+    <!-- Panel Lịch sử sao chép -->
+    <div class="history-section" id="history-section">
+        <div class="history-header">
+            <button class="close-history" id="close-history">&times;</button>
+            <h3 class="history-title">Lịch sử sao chép</h3>
+        </div>
+        <ul class="history-list" id="history-list">
+            <!-- Lịch sử sẽ được thêm động -->
+        </ul>
+        <div class="panel-footer">
+            <button class="delete-btn" id="clear-history">
+                <i class="fas fa-trash"></i> Xóa lịch sử
+            </button>
+        </div>
+    </div>
+    
+    <!-- Panel Mục yêu thích -->
+    <div class="favorites-section" id="favorites-section">
+        <div class="favorites-header">
+            <button class="close-favorites" id="close-favorites">&times;</button>
+            <h3 class="favorites-title">Mục yêu thích</h3>
+        </div>
+        <ul class="favorites-list" id="favorites-list">
+            <!-- Mục yêu thích sẽ được thêm động -->
+        </ul>
+        <div class="panel-footer">
+            <button class="delete-btn" id="clear-favorites">
+                <i class="fas fa-trash"></i> Xóa yêu thích
+            </button>
+        </div>
+    </div>
+    
+    <div class="back-to-top" id="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+    
     <script>
-        function copyContent(paragraphId) {
-            const paragraph = document.getElementById(paragraphId);
-            const textToCopy = paragraph.innerText;
-            navigator.clipboard.writeText(textToCopy)
+        // Dữ liệu các thủ thuật
+        const procedures = [
+            {
+                id: "section1",
+                title: "LẤY DỊ VẬT KẾT MẠC",
+                content: "MT tê tại chỗ bằng DD Alcain 0.5%.<br>Cố định mi bằng vành mi tự động.<br>Tiến hành lấy dị vật kết mạc.<br>Tra thuốc – Băng kín.<br>Trước trong và sau thủ thuật không xảy ra tai biến gì."
+            },
+            {
+                id: "section2",
+                title: "LẤY DỊ VẬT GIÁC MẠC",
+                content: "MT tê tại chỗ bằng Dd Alcain 0.5%<br>Cố định mi bằng vành mi tự động<br>Tiến hành lấy dị vật giác mạc<br>Tra thuốc – Băng kín<br>Trước trong và sau thủ thuật không xảy ra tai biến gì"
+            },
+            {
+                id: "section3",
+                title: "LẤY CALCI KẾT MẠC",
+                content: "- 2M tê tại chỗ bằng DD Alcain 0.5%<br>- Tiến hành lấy cặn calci 2M.<br>- Tra thuốc.<br>- Trước trong và sau thủ thuật không xảy ra tai biến gì.<br>- Thủ thuật an toàn."
+            },
+            {
+                id: "section4",
+                title: "CẤP CỨU BỎNG MẮT BAN ĐẦU",
+                content: "- MP: Tra thuốc tê Alcain 0,1% 2-3 lần cách nhau 1-2 phút<br>- Lấy dị vật trên mi làm sạch và lật mi trên dưới lấy dị vật trong túi kết mạc<br>- Bơm rửa cùng đồ = DD Natriclorua 0,9 %<br>- Tra thuốc – Băng kín<br>- Trước trong và sau thủ thuật không xảy ra tai biến gì"
+            },
+            {
+                id: "section5",
+                title: "RẠCH ÁP XE MI",
+                content: "- M tê tại chỗ bằng dung dịch Lidocain 2%.<br>- Cố định mi bằng thanh đè.<br>- Rạch một đường dài khoảng 2mm.<br>- Chích tháo mủ và đặt dẫn lưu.<br>- Tra thuốc – Băng ép.<br>- Trước trong và sau thủ thuật không xảy ra tai biến gì"
+            },
+            {
+                id: "section6",
+                title: "RẠCH ÁP XE TÚI LỆ",
+                content: "- M tê tại chỗ bằng dung dịch Lidocain 2%.<br>- Cố định mi bằng thanh đè.<br>- Rạch một đường dài khoảng 2mm trên bề mặt khối áp xe tại vị trí túi lệ.<br>- Tiến hành chích tháo mủ khối áp xe , đặt dẫn lưu<br>- Tra thuốc – Băng ép.<br>- Trước trong và sau thủ thuật không xảy ra tai biến gì"
+            },
+            {
+                id: "section7",
+                title: "CHÍCH MỦ MẮT",
+                content: "- M tê tại chỗ bằng dung dịch Lidocain 2%.<br>- Rạch một đường dài khoảng 5mm trên bề mặt khối áp xe vị trí thấp nhất<br>- Tiến hành chích tháo mủ khối áp xe, rửa sạch = DD natriclorua 0,9 %.<br>- Đặt dẫn lưu<br>- Tra thuốc – Băng ép.<br>- Trước trong và sau thủ thuật không xảy ra tai biến gì."
+            },
+            {
+                id: "section8",
+                title: "CHÍCH CHẮP LẸO",
+                content: "- M...: Tê tại chỗ bằng DD Lidocain 40mg.<br>- Cố định mi bằng thanh đè.<br>- Tiến hành chích chắp mi trên, nạo ra nhiều mủ<br>- Tra thuốc – Băng ép.<br>- Trước trong và sau thủ thuật không xảy ra tai biến gì."
+            },
+            {
+                id: "section9",
+                title: "GỌT GIÁC MẠC",
+                content: "- MP: Tra tê Alcain 0,5 %<br>- Sát khuẩn da mi và tại mắt.<br>- Đặt vành mi.<br>- Dùng dao crescent gọt tổn thương trên giác mạc phía trên ổ loét , lấy hết tổ chức nhuyến hóa đáy ổ loét, lấy bệnh phẩm làm xét nghiệm, làm sạch ổ loét<br>- Tháo vành mi.<br>- Tra thuốc sát trùng, kháng sinh tại chỗ.<br>- Băng mắt, kết thúc phẫu thuật an toàn"
+            },
+            {
+                id: "section10",
+                title: "KHÂU KẾT MẠC",
+                content: "- Sát khuẩn, trải sang<br>- Tra tê Alcain 0.5%.<br>- Kiểm tra mắt trái có vết rách kết mạc tại cùng đồ dưới, nhiều dị vật mạt sắt bít miệng vêt thương.<br>- Tiến hành lấy dị vật, rửa sạch vết thương.<br>- Kiểm tra vết thương kết mạc rách nham nhở kích thước khoảng 1.5cm kiểm tra củng mạc không thấy rách củng mạc.<br>- Tiến hành khâu phục hồi kết mạc bằng chỉ 10.0.<br>- Tra thuốc băng mắt.<br>- Kết thúc phẫu thuật an toàn."
+            },
+            {
+                id: "section11",
+                title: "CẮT CHỈ KHÂU KẾT MẠC",
+                content: "- MP tê tại chỗ bằng dung dịch Alcain 0.5%<br>- Tiến hành cắt chỉ kết mạc MP.<br>- Tra thuốc, băng mắt.<br>- Trước trong và sau thủ thuật không xảy ra tai biến gì.<br>- Thủ thuật an toàn."
+            },
+            {
+                id: "section12",
+                title: "BƠM RỬA LỆ ĐẠO",
+                content: "- 2M tê tại chỗ bằng dung dịch Alcain 0.5%.<br>- Tiến hành bơm rửa lệ đạo bằng dung dịch Natriclorid 0,9%.<br>- Bơm dịch mủ trào tại chỗ.<br>- Trước trong và sau thủ thuật không xảy ra tai biến gì.<br>- Thủ thuật an toàn."
+            },
+            {
+                id: "section13",
+                title: "BƠM THÔNG LỆ ĐẠO",
+                content: "- MPT tê tại chỗ bằng dung dịch Alcain 0.5%.<br>- Tiến hành bơm thông lệ đạo bằng dung dịch Natriclorid 0,9%.<br>- Nước thoát xuống miệng tốt.<br>- Trước trong và sau thủ thuật không xảy ra tai biến gì.<br>- Thủ thuật an toàn."
+            },
+            {
+                id: "section14",
+                title: "PT CHẮP CẢ BỌC",
+                content: "- Tê bằng DD Lidocain 40mg.<br>- Cố định mi bằng thanh đè.<br>- Rạch một đường dài khoảng 1mm trên bề mặt khối chắp.<br>- Tiến hành cắt chắp cả bọc mi dưới.<br>- Tra thuốc băng ép.<br>- Trước trong và sau thủ thuật không xảy ra tai biến gì.<br>- Thủ thuật an toàn."
+            },
+            {
+                id: "section15",
+                title: "NẶN BỜ MI",
+                content: "- 2M nhỏ tê bằng Alcain 0.5%.<br>- Tiến hành nặn bờ mi, đánh bờ mi.<br>- Bờ mi có nhiều mủ.<br>- Trước trong và sau thủ thuật không xảy ra tai biến gì.<br>- Thủ thuật an toàn."
+            },
+            {
+                id: "section16",
+                title: "RỬA CÙNG ĐỒ",
+                content: "- 2M tê tại chỗ bằng Dd Alcain 0.5%.<br>- Cố định mi bằng vành mi tự động.<br>- Tiến hành rửa cùng đồ bằng DD Natri clorid 0,9%.<br>- Tra thuốc.<br>- Trước trong và sau thủ thuật không xảy ra tai biến."
+            },
+            {
+                id: "section17",
+                title: "ĐO NHÃN ÁP",
+                content: "Nhãn áp (ICARE):<br>MP 16.4 mmHg.<br>MT 16.5 mmHg.<br>Nhãn áp 2M trong giới hạn bình thường."
+            },
+            {
+                id: "section18",
+                title: "SOI ĐÁY MẮT TRỰC TIẾP",
+                content: [
+                    {
+                        title: "Option 1",
+                        text: "2M Gai thị hồng bờ rõ.\n- Hệ mạch máu: bình thường.\n- Võng mạc không phù không xuất huyết.\n- Hoàng điểm có ánh trung tâm.\nKL: 2M: Chưa phát hiện gì bất thường."
+                    },
+                    {
+                        title: "Option 2",
+                        text: "MPT Gai thị hồng bờ rõ.\n- Hệ mạch máu động mạch co nhỏ, vi phình mạch, xuất tiết cứng rải rác.\n- Võng mạc không phù.\n- Hoàng điểm có ánh trung tâm, xuất tiết cứng rải rác."
+                    },
+                    {
+                        title: "Option 3",
+                        text: "MP Gai thị không soi rõ chi tiết.\n- Hệ mạch máu không soi rõ chi tiết.\n- Võng mạc không soi rõ chi tiết.\n- Hoàng điểm không soi rõ chi tiết.\nKL: MP đáy mắt không soi rõ chi tiết."
+                    }
+                ]
+            },
+            {
+                id: "section19",
+                title: "BÓC GIẢ MẠC",
+                content: "- 2M tê tại chỗ bằng DD Alcain 0.5%.<br>- Tiến hành bóc giả mạc.<br>- Tra thuốc – Băng ép.<br>- Trước trong và sau thủ thuật không xảy ra tai biến gì.<br>- Thủ thuật an toàn."
+            },
+            {
+                id: "section20",
+                title: "KHÂU VẾT THƯƠNG",
+                content: "- Tê tại chỗ bằng Lidocain 40mg.<br>- Gò má phải, vùng cằm – môi trên có vết thương dài khoảng 1cm bờ nham nhở chảy nhiều máu, ấn không phát hiện tổn thương xương.<br>- Rửa sạch vết thương.<br>- Khâu phục hồi giải phẫu các vết thương vùng má, môi, cằm bằng chỉ 4-0 mũi rời.<br>- Thủ thuật an toàn."
+            },
+            {
+                id: "section21",
+                title: "ĐỐT LÔNG SIÊU",
+                content: "- MP nhỏ tê bằng Alcain 0.5%.<br>- Tiến hành nhổ lông siêu.<br>- Trước trong và sau thủ thuật không xảy ra tai biến gì.<br>- Thủ thuật an toàn."
+            },
+            {
+                id: "section22",
+                title: "PT MỘNG GHÉP KẾT MẠC TỰ THÂN",
+                content: "- M...: Tiêm tê cạnh nhãn cầu và đầu mộng Dd Lidocain 40mg x 5ml.<br>- Cố định mi bằng vành mi tự động.<br>- Cắt rời đầu mộng và thân mộng.<br>- Tách thân mộng khỏi kết mạc, kẹp cắt thân mộng, đốt cầm máu.<br>- Lạng đầu mộng khỏi giác mạc.<br>- Lấy mảnh ghép KM vị trí 12h.<br>- Khâu cố định mảnh ghép bằng chỉ 10.0 mũi rời.<br>- Tra thuốc băng ép.<br>- Phẫu thuật an toàn."
+            },
+            {
+                id: "section23",
+                title: "PHẪU THUẬT QUẶM",
+                content: "- M...: gây tê tại chỗ bằng Dd lidocain 2 %.<br>- Cố định mi bằng thanh đè.<br>- Rạch da bộc lộ sụn mi trên, tạo lòng máng.<br>- Khâu cân cơ bằng Chỉ Vicryl 6-0 mũi rời.<br>- Khâu da bằng Chỉ Nylon 6-0.<br>- Tra thuốc băng ép.<br>- Phẫu thuật an toàn."
+            },
+            {
+                id: "section24",
+                title: "CẮT CHỈ KHÂU DA MI",
+                content: "- MPT sát khuẩn.<br>- Tiến hành cắt chỉ khâu da mi trên.<br>- Trước trong và sau thủ thuật không xảy ra tai biến gì.<br>- Thủ thuật an toàn."
+            },
+            {
+                id: "section25",
+                title: "PHẪU THUẬT QUẶM MI",
+                content: "- M...: tiêm tê tại chỗ bằng Dd lidocain 2 %.<br>- Đặt thanh đè dưới mi mắt.<br>- Rạch da mi tương ứng nếp mí dưới.<br>- Cắt bớt da thừa và 1 phần cơ vòng mi.<br>- Đốt cầm máu.<br>- Khâu phục hồi giải phẫu 2 lớp = chỉ Vicryl 5/0.<br>- Tra thuốc, băng mắt.<br>- Phẫu thuật an toàn."
+            },
+            {
+                id: "section26",
+                title: "DIỄN BIẾN LOÉT GIÁC MẠC",
+                content: "Ngày 1: có ổ loét vùng trung tâm kích thước khoảng 1x2 mm, đáy phẳng bờ nham nhở, thẩm lậu ở đáy ổ loét<br>Ngày 3:MP: ổ loét bắt đầu biểu mô hóa, còn ít thẩm lậu.<br>Ngày cuối: MP: biểu mô hóa hoàn toàn, MT: giác mạc còn ít viêm chấm nông vùng trung tâm."
+            },
+            {
+                id: "section27",
+                title: "KHÁM CHUYÊN KHOA",
+                content: [
+                    {
+                        title: "Option 1",
+                        text: "Thị lực:\nMP: 3/10 Kính lỗ: 6/10\nMT: 6/10 Kính lỗ: 7/10\n*Chẩn đoán: 2M: viêm bờ mi/ Đục T3 tiến triển."
+                    },
+                    {
+                        title: "Option 2",
+                        text: "Thị lực:\nMP: 2/10; Kính lỗ không tăng.\nMT: 6/10 Kính lỗ: 7/10.\n* Chẩn đoán: MP: Quặm mi dưới/ Đục T3.\n* Điều trị bệnh toàn thân ổn định hẹn lịch phẫu thuật MP: Quặm + Phaco IOL."
+                    },
+                    {
+                        title: "Option 3",
+                        text: "Thị lực:\nMP: BBT 0.3m; Kính lỗ không tăng.\nMT: ĐNT 1m; Kính lỗ 2/10.\nNhãn áp (Icare): MP 9.4mmHg; MT 8.4mmHg.\n* Chẩn đoán: MT: Xuất huyết kết mạc/ 2M: Đục T3.\n* Thuốc: 1. Tam thất bột x 100g ( Uống 10g/ngày).\n* Kiểm soốt huyết áp ổn định."
+                    }
+                ]
+            },
+            {
+                id: "section28",
+                title: "TÍNH BMI",
+                isBmi: true
+            }
+        ];
+
+        // Biến toàn cục
+        let copyHistory = JSON.parse(localStorage.getItem('copyHistory')) || [];
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        let activeSectionId = null;
+
+        // Tạo các section động
+        function createSections() {
+            const container = document.querySelector('.sections-container');
+            container.innerHTML = '';
+            
+            procedures.forEach(proc => {
+                if (proc.isBmi) {
+                    // Tạo section BMI
+                    const section = document.createElement('section');
+                    section.id = proc.id;
+                    section.className = 'bmi-section';
+                    
+                    section.innerHTML = `
+                        <h2>${proc.title}</h2>
+                        <p class="description">Nhập chiều cao và cân nặng để tính chỉ số BMI:</p>
+                        <div class="bmi-inputs">
+                            <input type="number" id="height" placeholder="Chiều cao (cm)">
+                            <input type="number" id="weight" placeholder="Cân nặng (kg)">
+                        </div>
+                        <button onclick="calculateBMI()"><i class="fas fa-calculator"></i> Tính BMI</button>
+                        <p id="content31" class="result-display"></p>
+                        <button class="copy-button" onclick="copyBMIOnly()"><i class="fas fa-copy"></i> Sao chép BMI</button>
+                        
+                        <div class="bmi-info">
+                            <h4>Phân loại BMI theo WHO:</h4>
+                            <ul>
+                                <li>Thiếu cân: < 18.5</li>
+                                <li>Bình thường: 18.5 - 24.9</li>
+                                <li>Thừa cân: 25 - 29.9</li>
+                                <li>Béo phì độ I: 30 - 34.9</li>
+                                <li>Béo phì độ II: 35 - 39.9</li>
+                                <li>Béo phì độ III: ≥ 40</li>
+                            </ul>
+                        </div>
+                    `;
+                    
+                    container.appendChild(section);
+                } else {
+                    // Tạo section thủ thuật
+                    const section = document.createElement('section');
+                    section.id = proc.id;
+                    
+                    // Kiểm tra section có trong favorites không
+                    const isFavorite = favorites.includes(proc.id);
+                    
+                    // Kiểm tra section có trong lịch sử sử dụng không
+                    const isRecentlyUsed = copyHistory.some(item => item.id === proc.id);
+                    
+                    if (isFavorite) section.classList.add('favorite');
+                    if (isRecentlyUsed) section.classList.add('recently-used');
+                    
+                    // Xử lý nội dung có nhiều option
+                    if (Array.isArray(proc.content)) {
+                        let contentHTML = `<h2>
+                            ${proc.title}
+                            <div class="section-actions">
+                                <button class="section-btn favorite-btn" onclick="toggleFavorite('${proc.id}')">
+                                    <i class="${isFavorite ? 'fas' : 'far'} fa-star"></i>
+                                </button>
+                            </div>
+                        </h2>`;
+                        
+                        proc.content.forEach((option, index) => {
+                            contentHTML += `
+                                <div class="option-block">
+                                    <div class="option-header">
+                                        <div class="option-title">${option.title}</div>
+                                    </div>
+                                    <p>${option.text.replace(/\n/g, '<br>')}</p>
+                                    <button class="copy-button" onclick="copyOptionContent('${proc.id}', ${index}, this)"><i class="fas fa-copy"></i> Sao chép</button>
+                                </div>
+                            `;
+                        });
+                        
+                        section.innerHTML = contentHTML;
+                    } else {
+                        // Nội dung thông thường (không có option)
+                        section.innerHTML = `
+                            <h2>
+                                ${proc.title}
+                                <div class="section-actions">
+                                    <button class="section-btn favorite-btn" onclick="toggleFavorite('${proc.id}')">
+                                        <i class="${isFavorite ? 'fas' : 'far'} fa-star"></i>
+                                    </button>
+                                </div>
+                            </h2>
+                            <p>${proc.content}</p>
+                            <button class="copy-button" onclick="copyContent('${proc.id}', this)"><i class="fas fa-copy"></i> Sao chép</button>
+                        `;
+                    }
+                    
+                    container.appendChild(section);
+                }
+            });
+        }
+
+        // Sao chép nội dung
+        function copyContent(sectionId, button) {
+            const section = document.getElementById(sectionId);
+            const content = section.querySelector('p').innerText;
+            
+            navigator.clipboard.writeText(content)
+                .then(() => {
+                    // Hiệu ứng sao chép thành công
+                    button.classList.add('copied');
+                    button.innerHTML = '<i class="fas fa-check"></i> Đã sao chép';
+                    
+                    setTimeout(() => {
+                        button.classList.remove('copied');
+                        button.innerHTML = '<i class="fas fa-copy"></i> Sao chép';
+                    }, 2000);
+                    
+                    // Lưu vào lịch sử
+                    const proc = procedures.find(p => p.id === sectionId);
+                    addToHistory({
+                        id: sectionId,
+                        title: proc.title,
+                        content: content,
+                        timestamp: new Date().toLocaleString()
+                    });
+                    
+                    // Đánh dấu section đã sử dụng gần đây
+                    section.classList.add('recently-used');
+                })
                 .catch(err => alert('Không thể sao chép: ' + err));
         }
-		function filterMenu() {
+
+        // Sao chép nội dung option
+        function copyOptionContent(sectionId, optionIndex, button) {
+            const proc = procedures.find(p => p.id === sectionId);
+            const option = proc.content[optionIndex];
+            const content = option.text;
+            
+            navigator.clipboard.writeText(content)
+                .then(() => {
+                    // Hiệu ứng sao chép thành công
+                    button.classList.add('copied');
+                    button.innerHTML = '<i class="fas fa-check"></i> Đã sao chép';
+                    
+                    setTimeout(() => {
+                        button.classList.remove('copied');
+                        button.innerHTML = '<i class="fas fa-copy"></i> Sao chép';
+                    }, 2000);
+                    
+                    // Lưu vào lịch sử
+                    addToHistory({
+                        id: sectionId,
+                        title: `${proc.title} - ${option.title}`,
+                        content: content,
+                        timestamp: new Date().toLocaleString()
+                    });
+                    
+                    // Đánh dấu section đã sử dụng gần đây
+                    document.getElementById(sectionId).classList.add('recently-used');
+                })
+                .catch(err => alert('Không thể sao chép: ' + err));
+        }
+
+        // Thêm vào lịch sử sao chép
+        function addToHistory(item) {
+            // Giới hạn lịch sử tối đa 50 mục
+            copyHistory = [item, ...copyHistory].slice(0, 50);
+            localStorage.setItem('copyHistory', JSON.stringify(copyHistory));
+            renderHistory();
+        }
+
+        // Hiển thị lịch sử sao chép
+        function renderHistory() {
+            const historyList = document.getElementById('history-list');
+            historyList.innerHTML = '';
+            
+            if (copyHistory.length === 0) {
+                historyList.innerHTML = '<div class="no-history"><i class="fas fa-history fa-2x"></i><p>Chưa có lịch sử sao chép</p></div>';
+                return;
+            }
+            
+            copyHistory.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'history-item';
+                li.onclick = () => {
+                    navigator.clipboard.writeText(item.content);
+                    alert(`Đã sao chép nội dung của "${item.title}"`);
+                };
+                
+                li.innerHTML = `
+                    <div class="history-item-title">
+                        <span>${item.title}</span>
+                        <i class="fas fa-copy"></i>
+                    </div>
+                    <div class="history-item-content">${item.content}</div>
+                    <div class="history-item-time">${item.timestamp}</div>
+                `;
+                
+                historyList.appendChild(li);
+            });
+        }
+        
+        // Hiển thị mục yêu thích
+        function renderFavorites() {
+            const favoritesList = document.getElementById('favorites-list');
+            favoritesList.innerHTML = '';
+            
+            if (favorites.length === 0) {
+                favoritesList.innerHTML = '<div class="no-favorites"><i class="far fa-star fa-2x"></i><p>Chưa có mục yêu thích</p></div>';
+                return;
+            }
+            
+            favorites.forEach(favId => {
+                const proc = procedures.find(p => p.id === favId);
+                if (!proc) return;
+                
+                // Tạo item yêu thích (chỉ hiển thị nội dung chính, không có option)
+                let content = '';
+                if (Array.isArray(proc.content)) {
+                    content = proc.content[0].text; // Lấy nội dung option đầu tiên
+                } else {
+                    content = proc.content;
+                }
+                
+                const li = document.createElement('li');
+                li.className = 'favorites-item';
+                li.onclick = () => {
+                    // Khi nhấn vào mục yêu thích, sao chép nội dung và cuộn đến section tương ứng
+                    navigator.clipboard.writeText(content);
+                    alert(`Đã sao chép nội dung của "${proc.title}"`);
+                    
+                    // Cuộn đến section
+                    scrollToSection(proc.id);
+                };
+                
+                li.innerHTML = `
+                    <div class="favorites-item-title">
+                        <span>${proc.title}</span>
+                        <i class="fas fa-copy"></i>
+                    </div>
+                    <div class="favorites-item-content">${content}</div>
+                `;
+                
+                favoritesList.appendChild(li);
+            });
+        }
+
+        // Tính BMI
+        function calculateBMI() {
+            const heightInput = document.getElementById("height");
+            const weightInput = document.getElementById("weight");
+            const resultDisplay = document.getElementById("content31");
+            
+            const height = parseFloat(heightInput.value) / 100; // Chuyển cm sang mét
+            const weight = parseFloat(weightInput.value);
+            
+            if (!height || !weight || height <= 0 || weight <= 0) {
+                alert("Vui lòng nhập chiều cao và cân nặng hợp lệ.");
+                return;
+            }
+            
+            const bmi = (weight / (height * height)).toFixed(1);
+            let classification = "";
+            let bmiClass = "";
+            
+            if (bmi < 18.5) {
+                classification = "Thiếu cân";
+                bmiClass = "underweight";
+            } else if (bmi < 24.9) {
+                classification = "Bình thường";
+                bmiClass = "normal";
+            } else if (bmi < 29.9) {
+                classification = "Thừa cân";
+                bmiClass = "overweight";
+            } else {
+                classification = "Béo phì";
+                bmiClass = "obese";
+            }
+            
+            resultDisplay.textContent = `BMI: ${bmi} (${classification})`;
+            resultDisplay.className = `result-display ${bmiClass}`;
+            resultDisplay.setAttribute("data-bmi", bmi);
+        }
+
+        // Sao chép chỉ số BMI
+        function copyBMIOnly() {
+            const bmi = document.getElementById("content31").getAttribute("data-bmi");
+            if (bmi) {
+                navigator.clipboard.writeText(bmi)
+                    .then(() => {
+                        alert(`Đã sao chép chỉ số BMI: ${bmi}`);
+                    })
+                    .catch(err => alert("Không thể sao chép: " + err));
+            } else {
+                alert("Chưa có chỉ số BMI để sao chép. Vui lòng tính BMI trước.");
+            }
+        }
+
+        // Lọc menu
+        function filterMenu() {
             const searchValue = document.getElementById("search-nav").value.toLowerCase();
             const items = document.querySelectorAll("nav ul li");
+            
             items.forEach(item => {
-                if (item.textContent.toLowerCase().includes(searchValue)) {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(searchValue)) {
                     item.style.display = "block";
                 } else {
                     item.style.display = "none";
                 }
             });
         }
-		function calculateBMI() {
-			const height = parseFloat(document.getElementById("height").value) / 100; // Chuyển cm sang mét
-			const weight = parseFloat(document.getElementById("weight").value);
-			if (!height || !weight || height <= 0 || weight <= 0) {
-				alert("Vui lòng nhập chiều cao và cân nặng hợp lệ.");
-				return;
-			}
-			const bmi = (weight / (height * height)).toFixed(2);
-			let classification = "";
-			if (bmi < 18.5) {
-				classification = "Thiếu cân";
-			} else if (bmi < 24.9) {
-				classification = "Bình thường";
-			} else if (bmi < 29.9) {
-				classification = "Thừa cân";
-			} else {
-				classification = "Béo phì";
-			}
-			document.getElementById("content31").innerText = `BMI: ${bmi} (${classification})`;
-			document.getElementById("content31").setAttribute("data-bmi", bmi);
-			}
-			function copyBMIOnly() {
-				const bmi = document.getElementById("content31").getAttribute("data-bmi");
-				if (bmi) {
-					navigator.clipboard.writeText(bmi)
-						.catch(err => alert("Không thể sao chép: " + err));
-				} else {
-					alert("Chưa có chỉ số BMI để sao chép. Vui lòng tính BMI trước.");
-			}
-			
-		}
-    </script>
-</head>
-<body>
-    <nav>
-		<h3>MỤC LỤC<h3>
-		<input
-            type="text"
-            id="search-nav"
-            class="search-box"
-            onkeyup="filterMenu()"
-            placeholder="Tìm kiếm..."
-        />
-        <ul>
-            <li><a href="#section1"><i></i>LẤY DỊ VẬT KẾT MẠC</a></li>
-            <li><a href="#section2"><i></i>LẤY DỊ VẬT GIÁC MẠC</a></li>
-            <li><a href="#section3"><i></i>LẤY CALCI KẾT MẠC</a></li>
-			<li><a href="#section4"><i></i>CẤP CỨU BỎNG MẮT BAN ĐẦU</a></li>
-			<li><a href="#section5"><i></i>RẠCH ÁP XE MI</a></li>
-			<li><a href="#section6"><i></i>RẠCH ÁP XE TÚI LỆ</a></li>
-			<li><a href="#section7"><i></i>CHÍCH MỦ MẮT</a></li>
-			<li><a href="#section8"><i></i>CHÍCH CHẮP LẸO</a></li>
-			<li><a href="#section9"><i></i>GỌT GIÁC MẠC</a></li>
-			<li><a href="#section10"><i></i>KHÂU KẾT MẠC</a></li>
-			<li><a href="#section11"><i></i>CẮT CHỈ KHÂU KẾT MẠC</a></li>
-			<li><a href="#section12"><i></i>BƠM RỬA LỆ ĐẠO</a></li>
-			<li><a href="#section13"><i></i>BƠM THÔNG LỆ ĐẠO</a></li>
-			<li><a href="#section14"><i></i>PT CHẮP CẢ BỌC</a></li>
-			<li><a href="#section15"><i></i>NẶN BỜ MI</a></li>
-			<li><a href="#section16"><i></i>RỬA CÙNG ĐỒ</a></li>
-			<li><a href="#section17"><i></i>ĐO NHÃN ÁP</a></li>
-			<li><a href="#section18"><i></i>SOI ĐÁY MẮT TRỰC TIẾP</a></li>
-			<li><a href="#section19"><i></i>BÓC GIẢ MẠC</a></li>
-			<li><a href="#section20"><i></i>KHÂU VẾT THƯƠNG</a></li>
-			<li><a href="#section21"><i></i>ĐỐT LÔNG SIÊU</a></li>
-			<li><a href="#section22"><i></i>PT MỘNG GHÉP KẾT MẠC TỰ THÂN</a></li>
-			<li><a href="#section23"><i></i>PHẪU THUẬT QUẶM</a></li>
-			<li><a href="#section24"><i></i>CẮT CHỈ KHÂU DA MI</a></li>
-			<li><a href="#section25"><i></i>PHẪU THUẬT QUẶM MI</a></li>
-			<li><a href="#section26"><i></i>DIỄN BIẾN LOÉT GIÁC MẠC</a></li>
-			<li><a href="#section27"><i></i>TÍNH BMI</a></li>
-        </ul>
-    </nav>
-    <main>
-    </section>
-        <section id="section1">
-            <h2>LẤY DỊ VẬT KẾT MẠC</h2>
-            <p id="content1">MT tê tại chỗ bằng DD Alcain 0.5%.<br>
-               Cố định mi bằng vành mi tự động.<br>
-               Tiến hành lấy dị vật kết mạc.<br>
-               Tra thuốc – Băng kín.<br>
-               Trước trong và sau thủ thuật không xảy ra tai biến gì.
-            </p>
-            <button class="copy-button" onclick="copyContent('content1')">Sao chép</button>
-        </section>
-		
-        <section id="section2">
-            <h2>LẤY DỊ VẬT GIÁC MẠC</h2>
-            <p id="content2">MT tê tại chỗ bằng DD Alcain 0.5%<br>
-               Cố định mi bằng vành mi tự động<br>
-               Tiến hành lấy dị vật giác mạc<br>
-               Tra thuốc – Băng kín<br>
-               Trước trong và sau thủ thuật không xảy ra tai biến gì
-            </p>
-            <button class="copy-button" onclick="copyContent('content2')">Sao chép</button>
-        </section>
-		
-        <section id="section3">
-            <h2>LẤY CALCI KẾT MẠC</h2>
-            <p id="content3">- 2M tê tại chỗ bằng DD Alcain 0.5%<br>
-               - Tiến hành lấy cặn calci 2M.<br>
-               - Tra thuốc.<br>
-               - Trước trong và sau thủ thuật không xảy ra tai biến gì.<br>
-               - Thủ thuật an toàn.
-            </p>
-            <button class="copy-button" onclick="copyContent('content3')">Sao chép</button>
-        </section>
-		
-		<section id="section4">
-            <h2>CẤP CỨU BỎNG MẮT BAN ĐẦU</h2>
-            <p id="content4">- MP: Tra thuốc tê Alcain 0,1% 2-3 lần cách nhau 1-2 phút<br>
-               - Lấy dị vật trên mi làm sạch và lật mi trên dưới lấy dị vật trong túi kết mạc<br>
-               - Bơm rửa cùng đồ = DD Natriclorua 0,9 %<br>
-               -  Tra thuốc – Băng kín<br>
-               -  Trước trong và sau thủ thuật không xảy ra tai biến gì
-            </p>
-            <button class="copy-button" onclick="copyContent('content4')">Sao chép</button>
-        </section>
-		
-		<section id="section5">
-            <h2>RẠCH ÁP XE MI</h2>
-            <p id="content5">- M tê tại chỗ bằng dung dịch Lidocain 2%.<br>
-               - Cố định mi bằng thanh đè.<br>
-               - Rạch một đường dài khoảng 2mm.<br>
-               - Chích tháo mủ và đặt dẫn lưu.<br>
-               - Tra thuốc – Băng ép.</p>
-			   - Trước trong và sau thủ thuật không xảy ra tai biến gì
-            </p>
-			<button class="copy-button" onclick="copyContent('content5')">Sao chép</button>
-        </section>
-		
-		<section id="section6">
-            <h2>RẠCH ÁP XE TÚI LỆ</h2>
-            <p id="content6">- M tê tại chỗ bằng dung dịch Lidocain 2%.<br>
-               - Cố định mi bằng thanh đè.<br>
-               - Rạch một đường dài khoảng 2mm trên bề mặt khối áp xe tại vị trí túi lệ.<br>
-               - Tiến hành chích tháo mủ khối áp xe , đặt dẫn lưu<br>
-               - Tra thuốc – Băng ép.</p>
-			   - Trước trong và sau thủ thuật không xảy ra tai biến gì
-            </p>
-			<button class="copy-button" onclick="copyContent('content6')">Sao chép</button>
-        </section>
-		
-		<section id="section7">
-            <h2>CHÍCH MỦ MẮT</h2>
-            <p id="content7">- M tê tại chỗ bằng dung dịch Lidocain 2%.<br>
-               - Rạch một đường dài khoảng 5mm trên bề mặt khối áp xe vị trí thấp nhất<br>
-               - Tiến hành chích tháo mủ khối áp xe, rửa sạch = DD natriclorua 0,9 %.<br>
-               - Đặt dẫn lưu<br>
-               - Tra thuốc – Băng ép.</p>
-			   - Trước trong và sau thủ thuật không xảy ra tai biến gì.
-            </p>
-			<button class="copy-button" onclick="copyContent('content7')">Sao chép</button>
-        </section>
-		
-		<section id="section8">
-            <h2>CHÍCH CHẮP LẸO</h2>
-            <p id="content8">- M...: Tê tại chỗ bằng DD Lidocain 40mg.<br>
-               - Cố định mi bằng thanh đè.<br>
-               - Tiến hành chích chắp mi trên, nạo ra nhiều mủ<br>
-               - Tra thuốc – Băng ép.</p>
-			   - Trước trong và sau thủ thuật không xảy ra tai biến gì.
-            </p>
-			<button class="copy-button" onclick="copyContent('content8')">Sao chép</button>
-        </section>
-		
-		<section id="section9">
-            <h2>GỌT GIÁC MẠC</h2>
-            <p id="content9">- MP: Tra tê Alcain 0,5 %<br>
-			   - Sát khuẩn da mi và tại mắt.<br>
-               - Đặt vành mi.<br>
-               - Dùng dao crescent gọt tổn thương trên giác mạc phía trên ổ loét , lấy hết tổ chức nhuyến hóa đáy ổ loét, lấy bệnh phẩm làm xét nghiệm, làm sạch ổ loét</p>
-			   - Tháo vành mi.<br>
-			   - Tra thuốc sát trùng, kháng sinh tại chỗ.<br>
-			   - Băng mắt, kết thúc phẫu thuật an toàn
-			</p>
-			<button class="copy-button" onclick="copyContent('content9')">Sao chép</button>
-        </section>
-		
-		<section id="section10">
-            <h2>KHÂU KẾT MẠC</h2>
-            <p id="content10">- Sát khuẩn, trải sang<br>
-			   - Tra tê Alcain 0.5%.<br>
-			   - Kiểm tra mắt trái có vết rách kết mạc tại cùng đồ dưới, nhiều dị vật mạt sắt bít miệng vêt thương.<br>
-		       - Tiến hành lấy dị vật, rửa sạch vết thương.<br>
-			   - Kiểm tra vết thương kết mạc rách nham nhở kích thước khoảng 1,5cm kiểm tra củng mạc không thấy rách củng mạc.<br>
-			   - Tiến hành khâu phục hồi kết mạc bằng chỉ 10.0.<br>
-			   - Tra thuốc băng mắt.<br>
-			   - Kết thúc phẫu thuật an toàn.
-			</p>
-			<button class="copy-button" onclick="copyContent('content10')">Sao chép</button>
-        </section>
-		
-		<section id="section11">
-            <h2>CẮT CHỈ KHÂU KẾT MẠC</h2>
-            <p id="content11">- MP tê tại chỗ bằng dung dịch Alcain 0.5%<br>
-			   - Tiến hành cắt chỉ kết mạc MP.<br>
-			   - Tra thuốc, băng mắt.<br>
-		       - Trước trong và sau thủ thuật không xảy ra tai biến gì.<br>
-			   - Thủ thuật an toàn.
-			</p>
-			<button class="copy-button" onclick="copyContent('content11')">Sao chép</button>
-        </section>
-		
-		<section id="section12">
-            <h2>BƠM RỬA LỆ ĐẠO</h2>
-            <p id="content12">- 2M tê tại chỗ bằng dung dịch Alcain 0.5%.<br>
-			   - Tiến hành bơm rửa lệ đạo bằng dung dịch Natriclorid 0,9%.<br>
-			   - Bơm dịch mủ trào tại chỗ.<br>
-			   - Trước trong và sau thủ thuật không xảy ra tai biến gì.<br>
-			   - Thủ thuật an toàn.
-			</p>
-			<button class="copy-button" onclick="copyContent('content12')">Sao chép</button>
-        </section>
-		
-		<section id="section13">
-            <h2>BƠM THÔNG LỆ ĐẠO</h2>
-            <p id="content13">-	MPT tê tại chỗ bằng dung dịch Alcain 0.5%.<br>
-			   - Tiến hành bơm thông lệ đạo bằng dung dịch Natriclorid 0,9%.<br>
-			   - Nước thoát xuống miệng tốt.<br>
-			   - Trước trong và sau thủ thuật không xảy ra tai biến gì.<br>
-			   - Thủ thuật an toàn.
-			</p>
-			<button class="copy-button" onclick="copyContent('content13')">Sao chép</button>
-        </section>
-		
-		<section id="section14">
-            <h2>PT CHẮP CẢ BỌC</h2>
-            <p id="content14">- Tê bằng DD Lidocain 40mg.<br>
-			   - Cố định mi bằng thanh đè.<br>
-			   - Rạch một đường dài khoảng 1mm trên bề mặt khối chắp.<br>
-			   - Tiến hành cắt chắp cả bọc mi dưới.<br>
-			   - Tra thuốc băng ép.<br>
-			   - Trước trong và sau thủ thuật không xảy ra tai biến gì.<br>
-			   - Thủ thuật an toàn.
-			</p>
-			<button class="copy-button" onclick="copyContent('content14')">Sao chép</button>
-        </section>
-		
-		<section id="section15">
-            <h2>NẶN BỜ MI</h2>
-            <p id="content15">-	2M nhỏ tê bằng Alcain 0.5%.<br>
-			   - Tiến hành nặn bờ mi, đánh bờ mi.<br>
-			   - Bờ mi có nhiều mủ.<br>
-			   - Trước trong và sau thủ thuật không xảy ra tai biến gì.<br>
-			   - Thủ thuật an toàn.
-			</p>
-			<button class="copy-button" onclick="copyContent('content15')">Sao chép</button>
-        </section>
-		
-		<section id="section16">
-            <h2>RỬA CÙNG ĐỒ</h2>
-            <p id="content16">- 2M tê tại chỗ bằng Dd Alcain 0.5%.<br>
-			   - Cố định mi bằng vành mi tự động.<br>
-			   - Tiến hành rửa cùng đồ bằng DD Natri clorid 0,9%.<br>
-			   - Tra thuốc.<br>
-			   - Trước trong và sau thủ thuật không xảy ra tai biến.
-			</p>
-			<button class="copy-button" onclick="copyContent('content16')">Sao chép</button>
-        </section>
-		
-		<section id="section17">
-            <h2>ĐO NHÃN ÁP</h2>
-            <p id="content17">Nhãn áp (ICARE):<br>
-				   MP 16.4 mmHg.<br>
-				   MT 16.5 mmHg.<br>
-				Nhãn áp 2M trong giới hạn bình thường.
-			</p>
-			<button class="copy-button" onclick="copyContent('content17')">Sao chép</button>
-        </section>
-		
-		<section id="section18">
-            <h2>SOI ĐÁY MẮT TRỰC TIẾP</h2>
-            <p id="content18">-	2M Gai thị hồng bờ rõ.<br>
-			   - Hệ mạch máu: bình thường.<br>
-			   - Võng mạc không phù không xuất huyết.<br>
-			   - Hoàng điểm có ánh trung tâm.<br>
-			   KL: 2M: Chưa phát hiện gì bất thường.
-			</p>
-			<button class="copy-button" onclick="copyContent('content18')">Sao chép</button>
-			
-			<p id="content19">- MPT Gai thị hồng bờ rõ.<br>
-			   - Hệ mạch máu động mạch co nhỏ, vi phình mạch, xuất tiết cứng rải rác.<br>
-			   - Võng mạc không phù.<br>
-			   - Hoàng điểm có ánh trung tâm, xuất tiết cứng rải rác.
-			</p>
-			<button class="copy-button" onclick="copyContent('content19')">Sao chép</button>
-			
-			<p id="content20">- MP Gai thị không soi rõ chi tiết.<br>
-			   - Hệ mạch máu không soi rõ chi tiết.<br>
-			   - Võng mạc không soi rõ chi tiết.<br>
-			   - Hoàng điểm không soi rõ chi tiết.<br>
-			   KL: MP đáy mắt không soi rõ chi tiết.
-			</p>
-			<button class="copy-button" onclick="copyContent('content20')">Sao chép</button>
-			
-			<p id="content21">- MP Gai thị phù bờ không rõ.<br>
-			   - Hệ mạch máu: bình thường.<br>
-			   - Võng mạc trung tâm phù có xuất tiết.<br>
-			   - Không xuất huyết không có bong võng mạc.<br>
-			   - Hoàng điểm ánh trung tâm nhòe.<br>
-			   KL: MP viêm võng mạc trung tâm thanh dịch.
-			</p>
-			<button class="copy-button" onclick="copyContent('content21')">Sao chép</button>
-			
-			<p id="content22">* MP:<br>
-			   - Gai thị hồng bờ rõ.<br>
-			   - Hệ mạch máu: co nhỏ, ngoằn ngoèo.<br>
-			   - Võng mạc: xuất huyết dưới võng mạc rải rác.<br>
-			   - Hoàng điểm mất ánh trung tâm.<br>
-			   * MT:<br>
-			   - Gai thị hồng bờ rõ.<br>
-			   - Hệ mạch máu: bình thường.<br>
-			   - Võng mạc không phù không xuất huyết.<br>
-			   - Hoàng điểm có ánh trung tâm.<br>
-			   KL: MP: xuất huyết dưới võng mạc.
-			</p>
-			<button class="copy-button" onclick="copyContent('content22')">Sao chép</button>
-        </section>
-		
-		<section id="section19">
-            <h2>BÓC GIẢ MẠC</h2>
-            <p id="content23">-	2M tê tại chỗ bằng DD Alcain 0.5%.<br>
-			   - Tiến hành bóc giả mạc.<br>
-			   - Tra thuốc – Băng ép.<br>
-			   - Trước trong và sau thủ thuật không xảy ra tai biến gì.<br>
-			   - Thủ thuật an toàn.
-			</p>
-			<button class="copy-button" onclick="copyContent('content23')">Sao chép</button>
-		</section>
-		
-		<section id="section20">
-            <h2>KHÂU VẾT THƯƠNG</h2>
-            <p id="content24">- Tê tại chỗ bằng Lidocain 40mg.<br>
-			   - Gò má phải, vùng cằm – môi trên có vết thương dài khoảng 1cm bờ nham nhở chảy nhiều máu, ấn không phát hiện tổn thương xương.<br>
-			   - Rửa sạch vết thương.<br>
-			   - Khâu phục hồi giải phẫu các vết thương vùng má, môi, cằm bằng chỉ 4-0 mũi rời.<br>
-			   - Thủ thuật an toàn.
-			</p>
-			<button class="copy-button" onclick="copyContent('content24')">Sao chép</button>
-		</section>
-		
-		<section id="section21">
-			<h2>ĐỐT LÔNG SIÊU</h2>
-            <p id="content25">-	MP nhỏ tê bằng Alcain 0.5%.<br>
-			   - Tiến hành nhổ lông siêu.<br>
-			   - Trước trong và sau thủ thuật không xảy ra tai biến gì.<br>
-			   - Thủ thuật an toàn.
-			</p>
-			<button class="copy-button" onclick="copyContent('content25')">Sao chép</button>
-		</section>
-		
-		<section id="section22">
-			<h2>PT MỘNG GHÉP KẾT MẠC TỰ THÂN</h2>
-            <p id="content26">-	M...: Tiêm tê cạnh nhãn cầu và đầu mộng Dd Lidocain 40mg x 5ml.<br>
-			   - Cố định mi bằng vành mi tự động.<br>
-			   - Cắt rời đầu mộng và thân mộng.<br>
-			   - Tách thân mộng khỏi kết mạc, kẹp cắt thân mộng, đốt cầm máu.<br>
-			   - Lạng đầu mộng khỏi giác mạc.<br>
-			   - Lấy mảnh ghép KM vị trí 12h.<br>
-			   - Khâu cố định mảnh ghép bằng chỉ 10.0 mũi rời.<br>
-			   - Tra thuốc băng ép.<br>
-			   - Phẫu thuật an toàn.
-			</p>
-			<button class="copy-button" onclick="copyContent('content26')">Sao chép</button>
-		</section>
 
-		<section id="section23">
-			<h2>PHẪU THUẬT QUẶM</h2>
-            <p id="content27">-	M...: gây tê tại chỗ bằng Dd lidocain 2 %.<br>
-			   - Cố định mi bằng thanh đè.<br>
-			   - Rạch da bộc  lộ sụn mi trên, tạo lòng máng.<br>
-			   - Khâu cân cơ bằng Chỉ Vicryl 6-0 mũi rời.<br>
-			   - Khâu da bằng Chỉ Nylon 6-0.<br>
-			   - Tra thuốc băng ép.<br>
-			   - Phẫu thuật an toàn.
-			</p>
-			<button class="copy-button" onclick="copyContent('content27')">Sao chép</button>
-		</section>
-		
-		<section id="section24">
-			<h2>CẮT CHỈ KHÂU DA MI</h2>
-            <p id="content28">-	MPT sát khuẩn.<br>
-			   - Tiến hành cắt chỉ khâu da mi trên.<br>
-			   - Trước trong và sau thủ thuật không xảy ra tai biến gì.<br>
-			   - Thủ thuật an toàn.
-			</p>
-			<button class="copy-button" onclick="copyContent('content28')">Sao chép</button>
-		</section>
-		
-		<section id="section25">
-			<h2>PHẪU THUẬT QUẶM MI</h2>
-            <p id="content29">-	M...: tiêm tê tại chỗ bằng Dd lidocain 2 %.<br>
-			   - Đặt thanh đè dưới mi mắt.<br>
-			   - Rạch da mi tương ứng nếp mí dưới.<br>
-			   - Cắt bớt da thừa và 1 phần cơ vòng mi.<br>
-			   - Đốt cầm máu.<br>
-			   - Khâu phục hồi giải phẫu 2 lớp = chỉ Vicryl 5/0.<br>
-			   - Tra thuốc, băng mắt.<br>
-			   - Phẫu thuật an toàn.
-			</p>
-			<button class="copy-button" onclick="copyContent('content29')">Sao chép</button>
-		</section>
-		
-		<section id="section26">
-			<h2>DIỄN BIẾN LOÉT GIÁC MẠC</h2>
-            <p id="content30">Ngày 1: có ổ loét vùng trung tâm kích thước khoảng 1x2 mm, đáy phẳng bờ nham nhở, thẩm lậu ở đáy ổ loét<br>
-			   Ngày 3:MP: ổ loét bắt đầu biểu mô hóa, còn ít thẩm lậu.<br>
-			   Ngày cuối: MP: biểu mô hóa hoàn toàn, MT: giác mạc còn ít viêm chấm nông vùng trung tâm.
-			</p>
-			<button class="copy-button" onclick="copyContent('content30')">Sao chép</button>
-		</section>
-		
-		<section id="section27" class="bmi-section">
-			<h2>TÍNH BMI</h2>
-			<p class="description">Nhập chiều cao và cân nặng để tính chỉ số BMI của bạn:</p>
-			<input type="number" id="height" placeholder="Cao (cm)">
-			<input type="number" id="weight" placeholder="Nặng (kg)">
-			<button onclick="calculateBMI()">Tính BMI</button>
-			<p id="content31" class="result-display"></p>
-			<button class="copy-button" onclick="copyBMIOnly()">Sao chép</button>
-		</section>
-    </main>
-	<footer>
-        <p>&copy; 2025 Phát triển bởi Phòng khám Mắt - Bệnh viện đa khoa Trường Đức &copy;<p>
-		</p>
-    </footer>
+        // Chuyển đổi chế độ tối/sáng
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDarkMode);
+            
+            const themeToggleIcon = document.getElementById('theme-toggle-icon');
+            
+            if (isDarkMode) {
+                themeToggleIcon.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                themeToggleIcon.innerHTML = '<i class="fas fa-moon"></i>';
+            }
+        }
+
+        // Thêm/xóa khỏi mục yêu thích
+        function toggleFavorite(sectionId) {
+            const index = favorites.indexOf(sectionId);
+            
+            if (index === -1) {
+                favorites.push(sectionId);
+            } else {
+                favorites.splice(index, 1);
+            }
+            
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            createSections(); // Tạo lại các section để cập nhật trạng thái
+            renderFavorites(); // Cập nhật danh sách yêu thích
+        }
+
+        // Xóa toàn bộ lịch sử sao chép
+        function clearHistory() {
+            if (confirm('Bạn có chắc chắn muốn xóa toàn bộ lịch sử sao chép?')) {
+                copyHistory = [];
+                localStorage.setItem('copyHistory', JSON.stringify(copyHistory));
+                renderHistory();
+                // Loại bỏ lớp recently-used khỏi tất cả các section
+                document.querySelectorAll('section').forEach(section => {
+                    section.classList.remove('recently-used');
+                });
+            }
+        }
+
+        // Xóa toàn bộ mục yêu thích
+        function clearFavorites() {
+            if (confirm('Bạn có chắc chắn muốn xóa toàn bộ mục yêu thích?')) {
+                favorites = [];
+                localStorage.setItem('favorites', JSON.stringify(favorites));
+                renderFavorites();
+                createSections(); // Tạo lại các section để cập nhật trạng thái
+            }
+        }
+        
+        // Cuộn đến section và làm nổi bật
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (!section) return;
+            
+            // Xóa highlight khỏi section trước đó
+            if (activeSectionId) {
+                document.getElementById(activeSectionId).classList.remove('highlight');
+            }
+            
+            // Cuộn mượt đến section
+            section.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            // Thêm hiệu ứng highlight
+            section.classList.add('highlight');
+            activeSectionId = sectionId;
+            
+            // Xóa highlight sau 3 giây
+            setTimeout(() => {
+                section.classList.remove('highlight');
+                activeSectionId = null;
+            }, 3000);
+        }
+        
+        // Xử lý khi click vào menu item
+        function handleNavClick(event) {
+            event.preventDefault();
+            
+            // Lấy ID section từ href
+            const targetId = this.getAttribute('href').substring(1);
+            
+            // Xóa active khỏi tất cả menu items
+            document.querySelectorAll('nav ul li a').forEach(a => {
+                a.classList.remove('active');
+            });
+            
+            // Thêm active cho menu item hiện tại
+            this.classList.add('active');
+            
+            // Cuộn đến section và làm nổi bật
+            scrollToSection(targetId);
+        }
+
+        // Xử lý sự kiện khi trang được tải
+        document.addEventListener('DOMContentLoaded', () => {
+            // Tạo các section
+            createSections();
+            
+            // Hiển thị lịch sử
+            renderHistory();
+            
+            // Hiển thị mục yêu thích
+            renderFavorites();
+            
+            // Thiết lập chế độ tối/sáng
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('theme-toggle-icon').innerHTML = '<i class="fas fa-sun"></i>';
+            }
+            
+            // Gắn sự kiện cho các menu items
+            document.querySelectorAll('nav ul li a').forEach(link => {
+                link.addEventListener('click', handleNavClick);
+            });
+            
+            // Sự kiện nút chuyển đổi chủ đề
+            document.getElementById('theme-toggle-icon').addEventListener('click', toggleTheme);
+            
+            // Sự kiện nút hiển thị lịch sử
+            document.getElementById('show-history').addEventListener('click', () => {
+                document.getElementById('history-section').classList.add('visible');
+                document.getElementById('favorites-section').classList.remove('visible');
+            });
+            
+            // Sự kiện nút đóng lịch sử
+            document.getElementById('close-history').addEventListener('click', () => {
+                document.getElementById('history-section').classList.remove('visible');
+            });
+            
+            // Sự kiện nút hiển thị mục yêu thích
+            document.getElementById('show-favorites').addEventListener('click', () => {
+                document.getElementById('favorites-section').classList.add('visible');
+                document.getElementById('history-section').classList.remove('visible');
+            });
+            
+            // Sự kiện nút đóng mục yêu thích
+            document.getElementById('close-favorites').addEventListener('click', () => {
+                document.getElementById('favorites-section').classList.remove('visible');
+            });
+            
+            // Sự kiện nút xóa lịch sử
+            document.getElementById('clear-history').addEventListener('click', clearHistory);
+            
+            // Sự kiện nút xóa mục yêu thích
+            document.getElementById('clear-favorites').addEventListener('click', clearFavorites);
+            
+            // Sự kiện nút cuộn lên đầu trang
+            const backToTopBtn = document.getElementById('back-to-top');
+            
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+            
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            
+            // Sự kiện tìm kiếm
+            document.getElementById('search-nav').addEventListener('input', filterMenu);
+        });
+    </script>
 </body>
 </html>
