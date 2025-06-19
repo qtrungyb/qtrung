@@ -23,26 +23,59 @@
             --transition: all 0.3s ease;
             --highlight-color: #FFF176;
             --highlight-border: #FFD600;
+            --favorite-color: #FFD700; /* Màu vàng cho biểu tượng yêu thích */
         }
 
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
             display: flex;
             font-family: 'Roboto', sans-serif;
-            margin: 0;
             min-height: 100vh;
             background: linear-gradient(to bottom, #e6e9f0, #d3d3d3);
             color: var(--text-dark);
             transition: var(--transition);
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
         body.dark-mode {
             background: linear-gradient(to bottom, #2C3E50, #1A2530);
             color: var(--text-light);
+        }
+
+        /* Loading overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.3s ease;
+        }
+
+        .loading-spinner {
+            text-align: center;
+            color: white;
+        }
+
+        .loading-spinner i {
+            font-size: 50px;
+            margin-bottom: 15px;
+            animation: fa-spin 2s linear infinite;
+        }
+
+        .loading-spinner p {
+            font-size: 18px;
+            margin: 0;
         }
 
         /* Thanh điều hướng */
@@ -107,6 +140,8 @@
         .search-box-container {
             position: relative;
             margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
         }
 
         .search-box {
@@ -146,6 +181,7 @@
 
         nav ul li {
             margin: 10px 0;
+            position: relative;
         }
 
         nav ul li a {
@@ -179,6 +215,23 @@
             margin-right: 10px;
             width: 20px;
             text-align: center;
+        }
+        
+        /* Biểu tượng yêu thích trong nav */
+        .nav-favorite-star {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--favorite-color);
+            font-size: 16px;
+            transition: var(--transition);
+            opacity: 0.8;
+        }
+
+        nav ul li a:hover .nav-favorite-star {
+            opacity: 1;
+            transform: translateY(-50%) scale(1.1);
         }
 
         /* Nội dung chính */
@@ -266,6 +319,14 @@
 
         .action-btn.favorites:hover {
             background: #F57C00;
+        }
+
+        .action-btn.advanced-search {
+            background: #4CAF50;
+        }
+
+        .action-btn.advanced-search:hover {
+            background: #388E3C;
         }
 
         /* Các section thủ thuật */
@@ -368,6 +429,15 @@
 
         .dark-mode .section-btn:hover {
             color: #64B5F6;
+        }
+
+        /* Biểu tượng sao yêu thích */
+        .favorite-btn .fas.fa-star {
+            color: var(--favorite-color); /* Màu vàng cho sao đã yêu thích */
+        }
+        
+        .favorite-btn:hover i {
+            color: var(--favorite-color) !important; /* Màu vàng khi hover */
         }
 
         p {
@@ -686,7 +756,7 @@
         
         /* Phần nội dung giới hạn */
         .section-content {
-            max-height: 7.5em; /* Tương đương 5 dòng (1.5em/dòng) */
+            max-height: 4.5em; /* Tương đương 5 dòng (1.5em/dòng) */
             overflow: hidden;
             transition: max-height 0.4s ease;
         }
@@ -729,9 +799,191 @@
         .action-btn.view-all:hover {
             background: #388E3C;
         }
+
+        /* Modal tìm kiếm nâng cao */
+        #advanced-search-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .dark-mode .modal-content {
+            background-color: #2C3E50;
+            color: white;
+        }
+
+        .modal-content h3 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        .dark-mode .modal-content h3 {
+            color: #64B5F6;
+        }
+
+        .search-fields {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-group label {
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .dark-mode .form-group input, 
+        .dark-mode .form-group select {
+            background-color: #34495E;
+            border-color: #4A6583;
+            color: white;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .modal-actions button {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        #cancel-search {
+            background-color: #f0f0f0;
+        }
+
+        .dark-mode #cancel-search {
+            background-color: #4A6583;
+            color: white;
+        }
+
+        #apply-search {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        #apply-search:hover {
+            background-color: #1565C0;
+        }
+
+        /* Responsive design */
+        @media (max-width: 992px) {
+            body {
+                flex-direction: column;
+            }
+            
+            nav {
+                width: 100%;
+                height: auto;
+                max-height: 60vh;
+                position: relative;
+                border-right: none;
+                border-bottom: 3px solid var(--secondary-color);
+            }
+            
+            main {
+                margin-left: 0;
+                padding: 20px;
+            }
+            
+            .sections-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .history-section, .favorites-section {
+                width: 90%;
+                right: -100%;
+            }
+            
+            .action-buttons {
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+            
+            .action-btn.history, .action-btn.favorites {
+                order: 1;
+            }
+            
+            .main-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .main-title {
+                font-size: 22px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .option-block {
+                padding: 10px;
+            }
+        
+            .copy-button {
+                width: 100%;
+                justify-content: center;
+            }
+        
+            .section-actions {
+                gap: 5px;
+            }
+        
+            .section-btn {
+                font-size: 14px;
+            }
+
+            .modal-content {
+                width: 95%;
+                padding: 15px;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Loading overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner">
+            <i class="fas fa-circle-notch fa-spin"></i>
+            <p>Đang tải dữ liệu...</p>
+        </div>
+    </div>
+
     <nav>
         <div class="nav-header">
             <h3>MỤC LỤC</h3>
@@ -745,6 +997,9 @@
                 class="search-box"
                 placeholder="Tìm kiếm thủ thuật..."
             />
+            <button class="action-btn advanced-search icon-btn" id="advanced-search-btn" title="Tìm kiếm nâng cao">
+                <i class="fas fa-sliders-h"></i>
+            </button>
         </div>
         
         <ul id="nav-menu">
@@ -785,7 +1040,6 @@
                 <button class="action-btn icon-btn" id="theme-toggle-icon" title="Chuyển chế độ sáng/tối">
                     <i class="fas fa-moon"></i>
                 </button>
-                <!-- Nút xem toàn bộ nội dung mới -->
                 <button class="action-btn icon-btn view-all" id="view-all-content" title="Xem toàn bộ nội dung">
                     <i class="fas fa-expand"></i>
                 </button>
@@ -840,7 +1094,7 @@
     </div>
     
     <script>
-        // Dữ liệu các thủ thuật (đã loại bỏ phần BMI)
+        // Dữ liệu các thủ thuật
         const procedures = [
             {
                 id: "section1",
@@ -1027,6 +1281,20 @@
         let activeSectionId = null;
         let isAllExpanded = false; // Trạng thái xem toàn bộ nội dung
 
+        // Hiển thị loading
+        function showLoading() {
+            document.getElementById('loading-overlay').style.display = 'flex';
+        }
+
+        // Ẩn loading
+        function hideLoading() {
+            document.getElementById('loading-overlay').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('loading-overlay').style.display = 'none';
+                document.getElementById('loading-overlay').style.opacity = '1';
+            }, 300);
+        }
+
         // Tạo các section động
         function createSections() {
             const container = document.querySelector('.sections-container');
@@ -1051,7 +1319,7 @@
                     let contentHTML = `<h2>
                         ${proc.title}
                         <div class="section-actions">
-                            <button class="section-btn favorite-btn" onclick="toggleFavorite('${proc.id}')">
+                            <button class="section-btn favorite-btn" onclick="toggleFavorite('${proc.id}')" title="Yêu thích">
                                 <i class="${isFavorite ? 'fas' : 'far'} fa-star"></i>
                             </button>
                         </div>
@@ -1088,7 +1356,7 @@
                         <h2>
                             ${proc.title}
                             <div class="section-actions">
-                                <button class="section-btn favorite-btn" onclick="toggleFavorite('${proc.id}')">
+                                <button class="section-btn favorite-btn" onclick="toggleFavorite('${proc.id}')" title="Yêu thích">
                                     <i class="${isFavorite ? 'fas' : 'far'} fa-star"></i>
                                 </button>
                             </div>
@@ -1109,6 +1377,33 @@
             
             // Kiểm tra và ẩn nút "Xem thêm" nếu không cần thiết
             setTimeout(checkContentOverflow, 100);
+        }
+        
+        // Cập nhật biểu tượng sao trong mục lục
+        function updateNavFavorites() {
+            const navItems = document.querySelectorAll('nav ul li');
+            
+            navItems.forEach(item => {
+                const link = item.querySelector('a');
+                const href = link.getAttribute('href');
+                const sectionId = href.substring(1); // Bỏ ký tự '#'
+                const isFavorite = favorites.includes(sectionId);
+                
+                // Tìm hoặc tạo biểu tượng sao
+                let star = item.querySelector('.nav-favorite-star');
+                
+                if (isFavorite) {
+                    if (!star) {
+                        star = document.createElement('i');
+                        star.className = 'fas fa-star nav-favorite-star';
+                        item.appendChild(star);
+                    }
+                } else {
+                    if (star) {
+                        item.removeChild(star);
+                    }
+                }
+            });
         }
 
         // Kiểm tra nội dung có bị cắt không
@@ -1344,6 +1639,78 @@
             });
         }
 
+        // Tìm kiếm nâng cao
+        function showAdvancedSearchModal() {
+            // Tạo modal tìm kiếm nâng cao
+            const modal = document.createElement('div');
+            modal.id = 'advanced-search-modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <h3>Tìm kiếm nâng cao</h3>
+                    <div class="search-fields">
+                        <div class="form-group">
+                            <label>Tiêu đề:</label>
+                            <input type="text" id="search-title" placeholder="Tìm theo tiêu đề...">
+                        </div>
+                        <div class="form-group">
+                            <label>Nội dung:</label>
+                            <input type="text" id="search-content" placeholder="Tìm trong nội dung...">
+                        </div>
+                        <div class="form-group">
+                            <label>Loại thủ thuật:</label>
+                            <select id="search-type">
+                                <option value="">Tất cả</option>
+                                <option value="kết mạc">Kết mạc</option>
+                                <option value="giác mạc">Giác mạc</option>
+                                <option value="mi mắt">Mi mắt</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        <button id="cancel-search">Hủy</button>
+                        <button id="apply-search">Tìm kiếm</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Xử lý sự kiện
+            document.getElementById('cancel-search').addEventListener('click', () => {
+                document.body.removeChild(modal);
+            });
+            
+            document.getElementById('apply-search').addEventListener('click', performAdvancedSearch);
+        }
+
+        // Thực hiện tìm kiếm nâng cao
+        function performAdvancedSearch() {
+            // Lấy giá trị tìm kiếm
+            const title = document.getElementById('search-title').value.toLowerCase();
+            const content = document.getElementById('search-content').value.toLowerCase();
+            const type = document.getElementById('search-type').value;
+            
+            // Lọc các section
+            document.querySelectorAll('section').forEach(section => {
+                const sectionTitle = section.querySelector('h2').textContent.toLowerCase();
+                const sectionContent = section.querySelector('.section-content').textContent.toLowerCase();
+                const matchesTitle = title === '' || sectionTitle.includes(title);
+                const matchesContent = content === '' || sectionContent.includes(content);
+                const matchesType = type === '' || sectionContent.includes(type);
+                
+                if (matchesTitle && matchesContent && matchesType) {
+                    section.style.display = 'block';
+                    section.classList.add('highlight');
+                    setTimeout(() => section.classList.remove('highlight'), 2000);
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+            
+            // Đóng modal
+            document.body.removeChild(document.getElementById('advanced-search-modal'));
+        }
+
         // Chuyển đổi chế độ tối/sáng
         function toggleTheme() {
             document.body.classList.toggle('dark-mode');
@@ -1375,6 +1742,7 @@
             localStorage.setItem('favorites', JSON.stringify(favorites));
             createSections(); // Tạo lại các section để cập nhật trạng thái
             renderFavorites(); // Cập nhật danh sách yêu thích
+            updateNavFavorites(); // Cập nhật biểu tượng sao trong mục lục
         }
 
         // Xóa toàn bộ lịch sử sao chép
@@ -1397,6 +1765,7 @@
                 localStorage.setItem('favorites', JSON.stringify(favorites));
                 renderFavorites();
                 createSections(); // Tạo lại các section để cập nhật trạng thái
+                updateNavFavorites(); // Cập nhật biểu tượng sao trong mục lục
             }
         }
         
@@ -1445,80 +1814,92 @@
 
         // Xử lý sự kiện khi trang được tải
         document.addEventListener('DOMContentLoaded', () => {
-            // Tạo các section
-            createSections();
+            showLoading();
             
-            // Hiển thị lịch sử
-            renderHistory();
-            
-            // Hiển thị mục yêu thích
-            renderFavorites();
-            
-            // Thiết lập chế độ tối/sáng
-            if (localStorage.getItem('darkMode') === 'true') {
-                document.body.classList.add('dark-mode');
-                document.getElementById('theme-toggle-icon').innerHTML = '<i class="fas fa-sun"></i>';
-            }
-            
-            // Gắn sự kiện cho các menu items
-            document.querySelectorAll('nav ul li a').forEach(link => {
-                link.addEventListener('click', handleNavClick);
-            });
-            
-            // Sự kiện nút chuyển đổi chủ đề
-            document.getElementById('theme-toggle-icon').addEventListener('click', toggleTheme);
-            
-            // Sự kiện nút hiển thị lịch sử
-            document.getElementById('show-history').addEventListener('click', () => {
-                document.getElementById('history-section').classList.add('visible');
-                document.getElementById('favorites-section').classList.remove('visible');
-            });
-            
-            // Sự kiện nút đóng lịch sử
-            document.getElementById('close-history').addEventListener('click', () => {
-                document.getElementById('history-section').classList.remove('visible');
-            });
-            
-            // Sự kiện nút hiển thị mục yêu thích
-            document.getElementById('show-favorites').addEventListener('click', () => {
-                document.getElementById('favorites-section').classList.add('visible');
-                document.getElementById('history-section').classList.remove('visible');
-            });
-            
-            // Sự kiện nút đóng mục yêu thích
-            document.getElementById('close-favorites').addEventListener('click', () => {
-                document.getElementById('favorites-section').classList.remove('visible');
-            });
-            
-            // Sự kiện nút xóa lịch sử
-            document.getElementById('clear-history').addEventListener('click', clearHistory);
-            
-            // Sự kiện nút xóa mục yêu thích
-            document.getElementById('clear-favorites').addEventListener('click', clearFavorites);
-            
-            // Sự kiện nút cuộn lên đầu trang
-            const backToTopBtn = document.getElementById('back-to-top');
-            
-            window.addEventListener('scroll', () => {
-                if (window.pageYOffset > 300) {
-                    backToTopBtn.classList.add('visible');
-                } else {
-                    backToTopBtn.classList.remove('visible');
+            setTimeout(() => {
+                // Tạo các section
+                createSections();
+                
+                // Hiển thị lịch sử
+                renderHistory();
+                
+                // Hiển thị mục yêu thích
+                renderFavorites();
+                
+                // Cập nhật biểu tượng sao trong mục lục
+                updateNavFavorites();
+                
+                // Thiết lập chế độ tối/sáng
+                if (localStorage.getItem('darkMode') === 'true') {
+                    document.body.classList.add('dark-mode');
+                    document.getElementById('theme-toggle-icon').innerHTML = '<i class="fas fa-sun"></i>';
                 }
-            });
-            
-            backToTopBtn.addEventListener('click', () => {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-            
-            // Sự kiện tìm kiếm
-            document.getElementById('search-nav').addEventListener('input', filterMenu);
-            
-            // Sự kiện nút xem toàn bộ nội dung
-            document.getElementById('view-all-content').addEventListener('click', toggleAllContent);
-            
-            // Sự kiện khi thay đổi kích thước cửa sổ
-            window.addEventListener('resize', checkContentOverflow);
+                
+                // Gắn sự kiện cho các menu items
+                document.querySelectorAll('nav ul li a').forEach(link => {
+                    link.addEventListener('click', handleNavClick);
+                });
+                
+                // Sự kiện nút chuyển đổi chủ đề
+                document.getElementById('theme-toggle-icon').addEventListener('click', toggleTheme);
+                
+                // Sự kiện nút hiển thị lịch sử
+                document.getElementById('show-history').addEventListener('click', () => {
+                    document.getElementById('history-section').classList.add('visible');
+                    document.getElementById('favorites-section').classList.remove('visible');
+                });
+                
+                // Sự kiện nút đóng lịch sử
+                document.getElementById('close-history').addEventListener('click', () => {
+                    document.getElementById('history-section').classList.remove('visible');
+                });
+                
+                // Sự kiện nút hiển thị mục yêu thích
+                document.getElementById('show-favorites').addEventListener('click', () => {
+                    document.getElementById('favorites-section').classList.add('visible');
+                    document.getElementById('history-section').classList.remove('visible');
+                });
+                
+                // Sự kiện nút đóng mục yêu thích
+                document.getElementById('close-favorites').addEventListener('click', () => {
+                    document.getElementById('favorites-section').classList.remove('visible');
+                });
+                
+                // Sự kiện nút xóa lịch sử
+                document.getElementById('clear-history').addEventListener('click', clearHistory);
+                
+                // Sự kiện nút xóa mục yêu thích
+                document.getElementById('clear-favorites').addEventListener('click', clearFavorites);
+                
+                // Sự kiện nút cuộn lên đầu trang
+                const backToTopBtn = document.getElementById('back-to-top');
+                
+                window.addEventListener('scroll', () => {
+                    if (window.pageYOffset > 300) {
+                        backToTopBtn.classList.add('visible');
+                    } else {
+                        backToTopBtn.classList.remove('visible');
+                    }
+                });
+                
+                backToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+                
+                // Sự kiện tìm kiếm
+                document.getElementById('search-nav').addEventListener('input', filterMenu);
+                
+                // Sự kiện nút xem toàn bộ nội dung
+                document.getElementById('view-all-content').addEventListener('click', toggleAllContent);
+                
+                // Sự kiện nút tìm kiếm nâng cao
+                document.getElementById('advanced-search-btn').addEventListener('click', showAdvancedSearchModal);
+                
+                // Sự kiện khi thay đổi kích thước cửa sổ
+                window.addEventListener('resize', checkContentOverflow);
+                
+                hideLoading();
+            }, 500);
         });
     </script>
 </body>
